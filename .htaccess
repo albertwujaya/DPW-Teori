@@ -1,0 +1,20 @@
+# Enable Rewrite Engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Handle /dashboard request
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^dashboard/?$ dashboard.html [QSA,L]
+    
+    # Handle /login request
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^login/?$ login.html [QSA,L]
+</IfModule>
+
+# NOTE: For local development without .htaccess support
+# Access files with .html extension directly
+# Example: localhost:5501/dashboard.html
+# Will work with ./htaccess on production (Apache server)
