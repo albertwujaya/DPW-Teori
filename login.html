@@ -22,14 +22,55 @@
         
         <h1 class="text-2xl font-bold text-[#4a3728] mb-6 tracking-widest uppercase">Login Admin</h1>
         
-        <form action="/dashboard" class="space-y-4">
-            <input type="text" placeholder="Username" class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50">
-            <input type="password" placeholder="Password" class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50">
+        <form id="loginForm" class="space-y-4">
+            <input 
+                type="text" 
+                id="username"
+                placeholder="Username" 
+                class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
+                required>
+            <input 
+                type="password" 
+                id="password"
+                placeholder="Password" 
+                class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
+                required>
             
             <button type="submit" class="mt-8 px-10 py-2 border border-[#4a3728] text-[#4a3728] hover:bg-[#4a3728] hover:text-white transition duration-300 font-bold uppercase tracking-widest">
                 Masuk
             </button>
         </form>
+
+        <p class="mt-6 text-sm text-[#4a3728]/60">
+            💡 Admin: username=<strong>admin</strong>, password=<strong>admin123</strong>
+        </p>
     </div>
+
+    <script>
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Admin credentials
+            const ADMIN_USERNAME = 'admin';
+            const ADMIN_PASSWORD = 'admin123';
+            
+            // Check if admin login
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                // Store admin flag in localStorage
+                localStorage.setItem('namaTamu', 'admin123');
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                // Show error message
+                alert('Username atau Password salah!');
+                // Clear password field
+                document.getElementById('password').value = '';
+            }
+        });
+    </script>
 </body>
 </html>
