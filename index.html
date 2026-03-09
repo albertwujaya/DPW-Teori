@@ -1,17 +1,162 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Daftar File HTML</title>
+    <meta charset="UTF-8"> <title>Undangan Pernikahan Albert & Selviana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cover-page {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+                        url('heading.jpg') no-repeat center center/cover !important;
+        }
+    </style>
 </head>
 <body>
-    <h1>Daftar File HTML</h1>
-    <p>Klik link di bawah untuk membuka file:</p>
-    
-    <ul>
-        <li><a href="aktivitas/Albert Wujaya tugas_html.html">Albert Wujaya - Tugas HTML (UUD 1945)</a></li>
-        <li><a href="aktivitas/Selviana Ananda tugas_html.html">Selviana Ananda - Tugas HTML</a></li>
-        <li><a href="aktivitas/tugas_css.html">Tugas CSS.html</a></li>
-        <li><a href="aktivitas/tugas_js.html">Tugas JS.html</a></li>
-    </ul>
+    <div class="cover-page">
+        <h2>Undangan Pernikahan</h2>
+        <h1>Albert <br> & <br> Selviana</h1>
+        <p>Save The Date <br> Minggu | 2 Agustus 2032 | 14.00 WIB</p>
+        <h3>Location :<br> 123 Anywhere St.. Any City, ST 12345</h3>
+    </div>
+
+    <div class="countdown-page">
+        <h2>Menghitung Hari</h2>
+        <div class="countdown">
+            <div class="countdown-item">
+                <span id="days">0</span>
+                <p>Hari</p>
+            </div>
+            <div class="countdown-item">
+                <span id="hours">0</span>
+                <p>Jam</p>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">0</span>
+                <p>Menit</p>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">0</span>
+                <p>Detik</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-two">
+        <div class="bride-groom-container">
+            <div class="photo-left">
+                <img src="grooms.jpg" alt="Foto Mempelai Pria (Albert)">
+            </div>
+            <div class="center-content">
+                <h2>Kepada</h2>
+                <p class="guest-greeting">Bapak/Ibu/Saudara/i</p>
+                <p style="text-align: justify;">Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan acara pernikahan putra-putri kami. Oleh karena itu, dengan segala kerendahan hati kami mengundang Bapak/Ibu/Saudara/i untuk berkenan hadir serta memberikan doa restu pada acara pernikahan yang akan kami laksanakan.</p>
+            </div>
+            <div class="photo-right">
+                <img src="brides.jpg" alt="Foto Mempelai Wanita (Selviana)">
+            </div>
+        </div>
+    </div>
+                <div class="info-item">
+                    <span class="label">Mempelai</span>
+                    <p class="value">Albert & Selviana</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">Putra/Putri Dari</span>
+                    <p class="value parents">Putra dari Mr. Darcy Esquire & Mrs. Elizabeth Bennet
+                        <br> & <br> Putri dari Mr. George William  &  Mrs. Sophia Charlotte</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="schedule-grid">
+                    <div class="schedule-item">
+                        <h4>Akad Nikah</h4>
+                        <p>14.00 - 15.30 WIB</p>
+                    </div>
+                    <div class="schedule-item">
+                        <h4>Resepsi</h4>
+                        <p>16.00 - Selesai WIB</p>
+                    </div>
+                </div>
+
+                <div class="location-box">
+                    <p><strong>Lokasi:</strong><br> 123 Anywhere St.. Any City, ST 12345</p>
+                    <a class="map-button" href="https://maps.google.com/?q=123+Anywhere+St" target="_blank">📍 Lihat di Peta</a>
+                </div>
+
+                <div class="photo-frame">
+                    <p style="text-align: center;"><img src="couple.jpg" alt="Foto Mempelai"></p>
+                </div>
+
+                <div class="additional-info">
+                    <p><strong>Nama Keluarga Besar:</strong><br> Keluarga Besar Albert & Keluarga Besar Selviana</p>
+                    <ul class="clean-list">
+                        <li>Dresscode: Pakaian Rapi & Sopan</li>
+                        <li>Mohon doa restu agar acara diberkati</li>
+                    </ul>
+                </div>
+
+                <div class="rsvp-container">
+    <div class="rsvp-wrapper">
+        <div class="rsvp-left">
+            <h3>Konfirmasi Kehadiran</h3>
+            <form action="#" method="POST">
+                <label for="name">Nama Lengkap:</label>
+                <input type="text" id="name" name="name" placeholder="Contoh: Budi Santoso" required>
+
+                <label for="attendance">Kehadiran:</label>
+                <select id="attendance" name="attendance" required>
+                    <option value="" disabled selected>Apakah Anda akan hadir?</option>
+                    <option value="ya">Ya, Saya Hadir</option>
+                    <option value="tidak">Maaf, Tidak Bisa Hadir</option>
+                </select>
+
+                <label for="guests">Jumlah Tamu:</label>
+                <input type="number" id="guests" name="guests" min="1" max="5" placeholder="Jumlah orang">
+
+                <label for="notes">Ucapan & Doa:</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Tuliskan pesan manis Anda untuk mempelai..."></textarea>
+
+                <button type="submit">Kirim Konfirmasi</button>
+            </form>
+        </div>
+
+        <div class="rsvp-right">
+            <h3>Kado Digital</h3>
+            <p>Doa restu Anda adalah kado terindah. Namun jika ingin memberi lebih, Anda dapat mengirimkannya melalui:</p>
+            
+            <div class="gift-options">
+                <div class="gift-card">
+                    <h4>💳 Transfer Bank</h4>
+                    <p>Bank BCA<br><strong>123456789</strong><br>a.n Albert / Selviana</p>
+                    <button class="copy-btn">Salin No. Rekening</button>
+                </div>
+
+                <hr class="divider">
+
+                <div class="gift-card">
+                    <h4>🎁 Secara Langsung</h4>
+                    <p>Anda dapat memberikan kado fisik secara langsung di lokasi acara melalui kotak yang tersedia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Copy-paste isi file kode-javascript.js Anda di sini atau panggil filenya
+        
+        // CONTOH ISI JAVASCRIPT:
+        const weddingDate = new Date("Aug 2, 2032 14:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+    </script>
 </body>
 </html>
