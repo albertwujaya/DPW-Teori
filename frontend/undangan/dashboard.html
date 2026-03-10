@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Buku Tamu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cormorant Garamond', serif; background-color: #fdfbf7; }
+        h2 { font-family: 'Cinzel', serif; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <script>
+        // Protection check - hanya admin yang bisa akses dashboard
+        window.addEventListener('load', function() {
+            const namaTamu = localStorage.getItem('namaTamu');
+            
+            // Jika bukan admin123, redirect ke login
+            if (namaTamu !== 'admin123') {
+                alert('Anda harus login sebagai admin untuk mengakses dashboard');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+    </script>
+
+    <aside class="w-64 bg-[#4a3728] text-[#f4f1ea] p-6 shadow-xl">
+        <h2 class="text-xl font-bold mb-10 border-b border-[#f4f1ea]/30 pb-4 tracking-wider">Menu Admin</h2>
+        <nav class="space-y-4">
+            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded border-l-2 border-yellow-600">Buku Tamu</a>
+            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded">Statistik RSVP</a>
+            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded">Pengaturan</a>
+            <a href="/login" class="block p-2 text-red-300 hover:text-red-400 mt-20 italic">Keluar</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8">
+        <div class="flex justify-between items-center mb-8 border-b-2 border-[#4a3728]/20 pb-4">
+            <h2 class="text-3xl font-bold text-[#4a3728]">Buku Tamu</h2>
+            <div class="flex gap-4">
+                <button class="bg-[#4a3728] text-white px-4 py-2 rounded shadow hover:bg-black transition">Export CSV</button>
+                <input type="text" placeholder="Cari nama..." class="border border-[#4a3728]/30 p-2 rounded focus:outline-none focus:ring-1 focus:ring-[#4a3728]">
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden border border-[#4a3728]/20">
+            <table class="w-full text-left">
+                <thead class="bg-[#f4f1ea] text-[#4a3728] uppercase text-sm font-bold">
+                    <tr>
+                        <th class="p-4 border-b">No</th>
+                        <th class="p-4 border-b">Nama Tamu</th>
+                        <th class="p-4 border-b">Kehadiran</th>
+                        <th class="p-4 border-b">Pesan / Ucapan</th>
+                        <th class="p-4 border-b text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 italic">1</td>
+                        <td class="p-4 font-semibold">Andi Wijaya</td>
+                        <td class="p-4 text-green-700">Hadir (2 Orang)</td>
+                        <td class="p-4 text-sm italic">"Selamat menempuh hidup baru Albert & Selviana!"</td>
+                        <td class="p-4 text-center"><input type="checkbox" checked></td>
+                    </tr>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 italic">2</td>
+                        <td class="p-4 font-semibold">Budi Santoso</td>
+                        <td class="p-4 text-red-700">Berhalangan</td>
+                        <td class="p-4 text-sm italic">"Maaf belum bisa hadir, doa terbaik untuk kalian."</td>
+                        <td class="p-4 text-center"><input type="checkbox"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

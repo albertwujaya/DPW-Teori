@@ -1,0 +1,108 @@
+
+.highlight-lightblue {
+    background-color: #03f7fb;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.highlight-blue {
+    display: inline-block;
+    color: #ffffff;
+    background-color: #0000FF;;
+    text-align: center;
+    margin : 0;
+
+}
+
+
+.highlight-box {
+    border: 2px solid red;
+    padding: 10px;
+    text-align: justify;
+    margin: 20px 0;
+}
+
+
+p::first-line{
+    background-color: #00FF00;
+}
+
+p {
+    text-align: justify;
+    line-height: 1.6;
+}
+
+
+.highlight-yellow {
+    background-color: #FFFF00; /* Kuning */
+}
+
+
+a {
+    color: #0000FF; /* Biru */
+    text-decoration: underline;
+}
+
+
+.link-text {
+    color: #808080; /* Abu-abu */
+    font-style: italic;
+}
+
+table {
+    border-collapse: collapse;
+    width: 700px;
+    margin: 20px auto;
+}
+
+table td {
+    border: 1px solid #000000;
+    padding: 10px;
+    text-align: center;
+}
+
+table tr td:first-child {
+    width: 200px;
+}
+
+table tr td:nth-child(2) {
+    width: 250px;
+}
+
+table tr td:nth-child(3) {
+    width: 250px;
+}
+
+.pancasila-title {
+    color: #00CED1; /* Cyan */
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+
+.pancasila-list {
+    margin-left: 40px;
+}
+
+.pancasila-list li {
+    margin: 5px 0;
+}
+
+
+.underline-yellow {
+    text-decoration: underline;
+    background-color: #FFFF00;
+    font-style: italic;
+}
+
+
+.bold-italic {
+    font-weight: bold;
+    font-style: italic;
+}
+
+

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link id="cssFile" rel="stylesheet" href="tugas_css.css">
+    <meta charset="UTF-8">
+    <style>
+        body {            
+              margin: 0;
+              min-height: 100vh;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .content h1,
+        .content h2 {
+            display: block;
+            width: 100%;
+            text-align: center !important;
+            margin: 0.5em 0;
+        }
+        /* Center titles */
+        h1.highlight-lightblue,
+        h2.highlight-blue {
+            text-align: center;
+            margin: 0.5em 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+        }
+        /* Make table text red */
+        table td,
+        table th {
+            color: red;
+        }
+        .toggle-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .toggle-btn:hover {
+            background-color: #45a049;
+        }
+        .toggle-btn.off {
+            background-color: #f44336;
+        }
+        .toggle-btn.off:hover {
+            background-color: #da190b;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albert-Wujaya-tugas_css</title>
+</head>
+<body>
+<div class="content">
+    <h1 class="highlight-lightblue">UNDANG-UNDANG DASAR NEGARA REPUBLIK INDONESIA 1945</h1><br>
+    <h2 class="highlight-blue">Pembukaan</h2>
+    <p class="highlight-box">
+    Bahwa sesungguhnya kemerdekaan itu ialah hak segala bangsa dan oleh sebab itu, maka penjajahan di atas dunia harus dihapuskan, karena tidak sesuai dengan peri-kemanusiaan dan peri-keadilan.
+</p>
+
+<p class="highlight-green">
+    Dan perjuangan pergerakan kemerdekaan Indonesia telah sampailah kepada saat yang membahagiakan dengan selamat sentausa mengantarkan rakyat <span class="highlight-yellow">Indonesia</span> ke depan pintu gerbang kemerdekaan Negara <span class="highlight-yellow">Indonesia</span> yang merdeka, bersatu, berdaulat, adil dan makmur.
+</p>
+
+<p class="highlight-green">
+    Atas berkat rakhmat Allah yang maha kuasa dan dengan didorongkan oleh keinginan luhur supaya berkehidupan kebangsaan yang bebas, maka rakyat Indonesia menyatakan dengan ini kemerdekaannya.
+</p>
+
+<p>
+    Kemudian dari pada itu untuk membentuk suatu Pemerintah Negara Indonesia yang melindungi segenap bangsa Indonesia dan seluruh tumpah darah Indonesia dan untuk memajukan kesejahteraan umum, mencerdaskan kehidupan bangsa dan ikut melaksanakan ketertiban dunia yang berdasarkan kemerdekaan, perdamaian abadi dan keadilan sosial, maka disusunlah <i>Kemerdekaan Kebangsaan Indonesia</i> itu dalam suatu susunan Negara Republik Indonesia, yang berkedaulatan rakyat dengan berdasar kepada: Ketuhanan Yang Maha Esa, Kemanusiaan yang adil dan beradab, persatuan Indonesia dan kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan, serta dengan mewujudkan suatu keadilan sosial bagi seluruh rakyat Indonesia. (sumber: klik disini) <span class="link-text">link ke</span> <a href="https://www.mkri.id/public/content/infoumum/regulation/pdf/UUD45%20ASLI.pdf">https://www.mkri.id/public/content/infoumum/regulation/pdf/UUD45%20ASLI.pdf</a>
+</p>
+
+<table border="1" cellpadding="10" cellspacing="0" width="700">
+    <tr>
+        <td width="200">1</td>
+        <td width="250">2</td>
+        <td width="250">3</td>
+    </tr>
+    <tr>
+        <td colspan="2">4</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td colspan="2">7</td>
+    </tr>
+</table>
+
+<class="pancasila-title">PANCASILA</class>
+
+<ol class="pancasila-list">
+    <li><span class="underline-yellow">Ketuhanan yang Maha Esa</span></li>
+    <li><span class="underline-yellow">Kemanusiaan yang adil dan beradab</span></li>
+    <li><span class="underline-yellow">Persatuan Indonesia</span></li>
+    <li><span class="underline-yellow">Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan, serta</span></li>
+    <li><span class="underline-yellow">Keadilan sosial bagi seluruh rakyat Indonesia</span></li>
+</ol>
+
+</div>
+<div class="button-container">
+    <button class="toggle-btn" onclick="toggleCSS()">CSS: ON</button>
+</div>
+</body>
+<script>
+    function toggleCSS() {
+        const cssFile = document.getElementById('cssFile');
+        const btn = document.querySelector('.toggle-btn');
+        
+        if (cssFile.disabled) {
+            cssFile.disabled = false;
+            btn.textContent = 'CSS: ON';
+            btn.classList.remove('off');
+        } else {
+            cssFile.disabled = true;
+            btn.textContent = 'CSS: OFF';
+            btn.classList.add('off');
+        }
+    }
+</script>
+</html>
