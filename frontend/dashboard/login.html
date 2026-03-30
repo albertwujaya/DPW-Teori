@@ -62,7 +62,7 @@
         window.addEventListener('load', function() {
             const namaTamu = localStorage.getItem('namaTamu');
             if (namaTamu === 'admin123') {
-                window.location.href = '/frontend/undangan/dashboard/index.html';
+                window.location.href = '/frontend/dashboard/index.html';
             }
         });
 
@@ -74,7 +74,7 @@
 
             if (username === 'admin' && password === 'admin123') {
                 localStorage.setItem('namaTamu', 'admin123');
-                window.location.href = '/frontend/undangan/dashboard/index.html';
+                window.location.href = '/frontend/dashboard/index.html';
             } else {
                 errorMsg.style.display = 'block';
                 document.getElementById('password').value = '';
