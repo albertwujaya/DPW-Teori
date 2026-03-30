@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=/frontend/undangan/dashboard.html">
+    <title>Dashboard - Albert & Selviana</title>
     <script>
-        // Redirect ke dashboard.html
-        window.location.href = '../dashboard.html';
+        // Cek autentikasi sebelum redirect
+        const namaTamu = localStorage.getItem('namaTamu');
+        if (namaTamu !== 'admin123') {
+            window.location.href = '/frontend/undangan/login.html';
+        } else {
+            window.location.href = '/frontend/undangan/dashboard.html';
+        }
     </script>
 </head>
 <body>
-    <p>Redirecting to dashboard...</p>
+    <p style="font-family:sans-serif;text-align:center;margin-top:40px;color:#888;">Mengalihkan ke dashboard...</p>
 </body>
 </html>

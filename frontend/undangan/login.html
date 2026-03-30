@@ -19,23 +19,28 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
         </div>
-        
-        <h1 class="text-2xl font-bold text-[#4a3728] mb-6 tracking-widest uppercase">Login Admin</h1>
-        
+
+        <h1 class="text-2xl font-bold text-[#4a3728] mb-2 tracking-widest uppercase">Login Admin</h1>
+        <p style="font-style:italic;color:#888;font-size:0.95rem;margin-bottom:24px;">Albert & Selviana Wedding</p>
+
         <form id="loginForm" class="space-y-4">
-            <input 
-                type="text" 
+            <input
+                type="text"
                 id="username"
-                placeholder="Username" 
+                placeholder="Username"
                 class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
                 required>
-            <input 
-                type="password" 
+            <input
+                type="password"
                 id="password"
-                placeholder="Password" 
+                placeholder="Password"
                 class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
                 required>
-            
+
+            <div id="errorMsg" style="display:none;color:#9b2335;font-size:0.85rem;padding:8px;background:#fde8ea;border-radius:6px;">
+                Username atau Password salah!
+            </div>
+
             <button type="submit" class="mt-8 px-10 py-2 border border-[#4a3728] text-[#4a3728] hover:bg-[#4a3728] hover:text-white transition duration-300 font-bold uppercase tracking-widest">
                 Masuk
             </button>
@@ -44,31 +49,36 @@
         <p class="mt-6 text-sm text-[#4a3728]/60">
             💡 Admin: username=<strong>admin</strong>, password=<strong>admin123</strong>
         </p>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e0ddd5;">
+            <a href="/frontend/undangan/index.html" style="font-size:0.82rem;color:#6f816a;text-decoration:none;">
+                ← Kembali ke Halaman Undangan
+            </a>
+        </div>
     </div>
 
     <script>
-        // Handle login form submission
+        // Cek jika sudah login
+        window.addEventListener('load', function() {
+            const namaTamu = localStorage.getItem('namaTamu');
+            if (namaTamu === 'admin123') {
+                window.location.href = '/frontend/undangan/dashboard/index.html';
+            }
+        });
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-            
-            // Admin credentials
-            const ADMIN_USERNAME = 'admin';
-            const ADMIN_PASSWORD = 'admin123';
-            
-            // Check if admin login
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                // Store admin flag in localStorage
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (username === 'admin' && password === 'admin123') {
                 localStorage.setItem('namaTamu', 'admin123');
-                // Redirect to dashboard
-                window.location.href = 'dashboard.html';
+                window.location.href = '/frontend/undangan/dashboard/index.html';
             } else {
-                // Show error message
-                alert('Username atau Password salah!');
-                // Clear password field
+                errorMsg.style.display = 'block';
                 document.getElementById('password').value = '';
+                setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
             }
         });
     </script>

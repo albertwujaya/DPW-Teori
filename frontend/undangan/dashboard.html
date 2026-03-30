@@ -3,79 +3,1450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Buku Tamu</title>
+    <title>Dashboard Admin — Albert & Selviana</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Cormorant Garamond', serif; background-color: #fdfbf7; }
-        h2 { font-family: 'Cinzel', serif; }
+        :root {
+            --olivine: #6f816a;
+            --olivine-dark: #3d5a44;
+            --olivine-light: #a8bba4;
+            --olivine-pale: #f1f5f0;
+            --burgundy: #572932;
+            --burgundy-dark: #361a1f;
+            --cream: #fdfbf7;
+            --warm-brown: #4a3728;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--olivine-pale);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* ============= SIDEBAR ============= */
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(160deg, var(--warm-brown) 0%, #2d1f16 100%);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            overflow-y: auto;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+            backdrop-filter: blur(2px);
+        }
+
+        .sidebar-logo {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #fff;
+            letter-spacing: 0.1em;
+            line-height: 1.3;
+        }
+
+        .sidebar-logo .couple-names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--olivine-light);
+            margin-top: 2px;
+        }
+
+        .sidebar-badge {
+            display: inline-block;
+            background: var(--burgundy);
+            color: #fff;
+            font-size: 0.65rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .nav-group-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.35);
+            padding: 12px 24px 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 24px;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: rgba(111,129,106,0.18);
+            color: var(--olivine-light);
+            border-left-color: var(--olivine-light);
+            font-weight: 500;
+        }
+
+        .nav-item i { width: 18px; text-align: center; font-size: 0.95rem; }
+
+        .sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f87171;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 8px 0;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .logout-btn:hover { color: #fca5a5; }
+
+        /* ============= MAIN CONTENT ============= */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* ============= TOPBAR ============= */
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e8e8e0;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            gap: 16px;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: var(--warm-brown);
+            font-size: 1.2rem;
+        }
+
+        .topbar-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--warm-brown);
+            letter-spacing: 0.05em;
+            flex: 1;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--olivine-pale);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 7px 14px;
+            gap: 8px;
+            width: 220px;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus-within { border-color: var(--olivine); }
+        .search-box input {
+            background: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: #333;
+            width: 100%;
+        }
+        .search-box i { color: #999; font-size: 0.85rem; }
+
+        .topbar-actions { display: flex; align-items: center; gap: 14px; }
+
+        .topbar-icon-btn {
+            position: relative;
+            width: 36px; height: 36px;
+            background: var(--olivine-pale);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--warm-brown);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+        .topbar-icon-btn:hover { background: #e0ddd5; }
+
+        .notif-dot {
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 8px; height: 8px;
+            background: var(--burgundy);
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .admin-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--olivine), var(--burgundy));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ============= PAGE CONTENT ============= */
+        .page-content { padding: 28px 28px; flex: 1; }
+
+        /* ============= SECTION HEADER ============= */
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--warm-brown);
+            letter-spacing: 0.05em;
+        }
+
+        .section-header p {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        /* ============= STAT CARDS ============= */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            border: 1px solid #eee;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+
+        .stat-card.green::before { background: linear-gradient(90deg, var(--olivine), var(--olivine-light)); }
+        .stat-card.red::before   { background: linear-gradient(90deg, var(--burgundy), #c75a6a); }
+        .stat-card.gold::before  { background: linear-gradient(90deg, #b8860b, #d4a017); }
+        .stat-card.brown::before { background: linear-gradient(90deg, var(--warm-brown), #7a5e52); }
+
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.09); }
+
+        .stat-icon {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.green { background: #eef3ed; color: var(--olivine-dark); }
+        .stat-icon.red   { background: #fceef0; color: var(--burgundy); }
+        .stat-icon.gold  { background: #fdf7e5; color: #b8860b; }
+        .stat-icon.brown { background: #f5ede8; color: var(--warm-brown); }
+
+        .stat-info { flex: 1; }
+        .stat-label { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: #222; line-height: 1.1; margin: 4px 0 2px; font-family: 'Cormorant Garamond', serif; }
+        .stat-sub { font-size: 0.75rem; color: #aaa; }
+
+        /* ============= TWO-COL GRID ============= */
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        /* ============= CARDS ============= */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #f0ede8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: var(--warm-brown);
+            letter-spacing: 0.04em;
+        }
+
+        .card-action {
+            font-size: 0.78rem;
+            color: var(--olivine-dark);
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .card-action:hover { color: var(--warm-brown); }
+
+        /* ============= TABLE ============= */
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        thead tr {
+            background: #fdfbf7;
+        }
+
+        thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-top: 1px solid #f5f5f0;
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover { background: #fdfcf9; }
+
+        tbody td {
+            padding: 13px 16px;
+            color: #444;
+            vertical-align: middle;
+        }
+
+        .guest-name {
+            font-weight: 600;
+            color: #222;
+        }
+
+        .guest-initials {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .guest-cell { display: flex; align-items: center; gap: 10px; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-green { background: #e6f4ea; color: #2d6a4f; }
+        .badge-red   { background: #fde8ea; color: #9b2335; }
+        .badge-gold  { background: #fdf5e0; color: #8a6914; }
+
+        /* ============= RSVP CHART (CSS) ============= */
+        .rsvp-donut-wrap {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .donut-chart {
+            position: relative;
+            width: 160px;
+            height: 160px;
+        }
+
+        .donut-chart svg { transform: rotate(-90deg); }
+
+        .donut-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .donut-center .donut-total {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--warm-brown);
+            line-height: 1;
+        }
+
+        .donut-center .donut-label {
+            font-size: 0.7rem;
+            color: #aaa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .legend-list { width: 100%; }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f0;
+            font-size: 0.82rem;
+        }
+
+        .legend-item:last-child { border-bottom: none; }
+
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .legend-left { display: flex; align-items: center; gap: 8px; color: #666; }
+        .legend-count { font-weight: 600; color: #333; }
+
+        /* ============= MESSAGES LIST ============= */
+        .messages-list { padding: 0 22px 16px; }
+
+        .message-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #f5f5f0;
+        }
+
+        .message-item:last-child { border-bottom: none; }
+
+        .message-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .message-author {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 0.72rem;
+            color: #bbb;
+        }
+
+        .message-text {
+            font-size: 0.82rem;
+            color: #777;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .message-attendance {
+            font-size: 0.7rem;
+            margin-top: 5px;
+        }
+
+        /* ============= BOTTOM ROW ============= */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        /* ============= PROGRESS BARS ============= */
+        .progress-list { padding: 8px 22px 22px; }
+
+        .progress-item { margin-bottom: 20px; }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 0.82rem;
+        }
+
+        .progress-label span:first-child { color: #555; font-weight: 500; }
+        .progress-label span:last-child  { color: #888; }
+
+        .progress-bar-bg {
+            height: 7px;
+            background: #f0ede8;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* ============= TIMELINE ============= */
+        .timeline { padding: 8px 22px 22px; }
+
+        .tl-item {
+            display: flex;
+            gap: 14px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .tl-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 30px;
+            bottom: 0;
+            width: 1px;
+            background: #eee;
+        }
+
+        .tl-dot {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .tl-content { flex: 1; padding-top: 4px; }
+        .tl-title { font-size: 0.85rem; font-weight: 600; color: #333; }
+        .tl-desc  { font-size: 0.78rem; color: #999; margin-top: 2px; }
+
+        /* ============= EXPORT BUTTON ============= */
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--olivine-dark);
+            color: #fff;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s, transform 0.15s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .export-btn:hover { background: var(--warm-brown); transform: translateY(-1px); }
+
+        /* ============= FILTER ROW ============= */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 22px;
+            border-bottom: 1px solid #f0ede8;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #e0ddd5;
+            background: #fff;
+            color: #888;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--warm-brown);
+            color: #fff;
+            border-color: var(--warm-brown);
+        }
+
+        .filter-search {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--olivine-pale);
+            border: 1px solid #e0ddd5;
+            border-radius: 8px;
+            padding: 5px 12px;
+        }
+
+        .filter-search input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 0.8rem;
+            font-family: 'Poppins', sans-serif;
+            width: 150px;
+        }
+
+        /* ============= CHECKBOX ============= */
+        .checkbox-custom {
+            width: 18px; height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-custom.checked {
+            background: var(--olivine);
+            border-color: var(--olivine);
+            color: #fff;
+            font-size: 0.65rem;
+        }
+
+        /* ============= PAGE VIEWS ============= */
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+
+        /* ============= RSVP FORM SECTION ============= */
+        .rsvp-form-preview {
+            padding: 20px 22px;
+            background: var(--olivine-pale);
+            margin: 16px;
+            border-radius: 10px;
+            border: 1px solid #dde5db;
+        }
+
+        .form-field {
+            margin-bottom: 16px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 5px;
+        }
+
+        .form-field .field-value {
+            font-size: 0.9rem;
+            color: #444;
+            padding: 10px 0;
+            border-bottom: 1px solid #d0ccc5;
+        }
+
+        /* ============= RESPONSIVE ============= */
+        @media (max-width: 1100px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .two-col-grid { grid-template-columns: 1fr; }
+            .bottom-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 900px) {
+            :root { --sidebar-width: 0px; }
+
+            .sidebar {
+                width: 260px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.show { display: block; }
+
+            .main-wrapper { margin-left: 0; }
+
+            .hamburger { display: flex; }
+
+            .search-box { width: 160px; }
+
+            .topbar-title { font-size: 0.88rem; }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .page-content { padding: 16px; }
+            .stat-value { font-size: 1.6rem; }
+            .stat-icon { width: 38px; height: 38px; font-size: 0.9rem; }
+            .search-box { display: none; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 420px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ============= ANIMATE IN ============= */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card { animation: fadeUp 0.4s ease both; }
+        .stat-card:nth-child(1) { animation-delay: 0.05s; }
+        .stat-card:nth-child(2) { animation-delay: 0.1s; }
+        .stat-card:nth-child(3) { animation-delay: 0.15s; }
+        .stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+        .card { animation: fadeUp 0.4s 0.25s ease both; }
+
+        /* ============= DECORATIVE ============= */
+        .ornament {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--olivine-light);
+            font-size: 0.8rem;
+            margin: 0 6px;
+        }
     </style>
 </head>
-<body class="flex min-h-screen">
+<body>
 
-    <script>
-        // Protection check - hanya admin yang bisa akses dashboard
-        window.addEventListener('load', function() {
-            const namaTamu = localStorage.getItem('namaTamu');
-            
-            // Jika bukan admin123, redirect ke login
-            if (namaTamu !== 'admin123') {
-                alert('Anda harus login sebagai admin untuk mengakses dashboard');
-                window.location.href = 'login.html';
-                return;
-            }
-        });
-    </script>
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-    <aside class="w-64 bg-[#4a3728] text-[#f4f1ea] p-6 shadow-xl">
-        <h2 class="text-xl font-bold mb-10 border-b border-[#f4f1ea]/30 pb-4 tracking-wider">Menu Admin</h2>
-        <nav class="space-y-4">
-            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded border-l-2 border-yellow-600">Buku Tamu</a>
-            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded">Statistik RSVP</a>
-            <a href="#" class="block p-2 hover:bg-[#f4f1ea]/10 rounded">Pengaturan</a>
-            <a href="/login" class="block p-2 text-red-300 hover:text-red-400 mt-20 italic">Keluar</a>
-        </nav>
-    </aside>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <h1>Dashboard Admin</h1>
+        <div class="couple-names">Albert & Selviana</div>
+        <span class="sidebar-badge">2 Agustus 2032</span>
+    </div>
 
-    <main class="flex-1 p-8">
-        <div class="flex justify-between items-center mb-8 border-b-2 border-[#4a3728]/20 pb-4">
-            <h2 class="text-3xl font-bold text-[#4a3728]">Buku Tamu</h2>
-            <div class="flex gap-4">
-                <button class="bg-[#4a3728] text-white px-4 py-2 rounded shadow hover:bg-black transition">Export CSV</button>
-                <input type="text" placeholder="Cari nama..." class="border border-[#4a3728]/30 p-2 rounded focus:outline-none focus:ring-1 focus:ring-[#4a3728]">
+    <nav class="sidebar-nav">
+        <div class="nav-group-label">Utama</div>
+        <a class="nav-item active" onclick="showPage('dashboard', this)">
+            <i class="fas fa-th-large"></i> Ringkasan
+        </a>
+        <a class="nav-item" onclick="showPage('tamu', this)">
+            <i class="fas fa-users"></i> Buku Tamu
+        </a>
+        <a class="nav-item" onclick="showPage('ucapan', this)">
+            <i class="fas fa-comment-dots"></i> Ucapan & Doa
+        </a>
+
+        <div class="nav-group-label" style="margin-top:10px;">Statistik</div>
+        <a class="nav-item" onclick="showPage('rsvp', this)">
+            <i class="fas fa-chart-pie"></i> Statistik RSVP
+        </a>
+        <a class="nav-item" onclick="showPage('tamu', this)">
+            <i class="fas fa-file-csv"></i> Export Data
+        </a>
+
+        <div class="nav-group-label" style="margin-top:10px;">Sistem</div>
+        <a class="nav-item" onclick="showPage('pengaturan', this)">
+            <i class="fas fa-cog"></i> Pengaturan
+        </a>
+        <a class="nav-item" href="/frontend/undangan/index.html" target="_blank">
+            <i class="fas fa-eye"></i> Lihat Undangan
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a class="logout-btn" href="/frontend/undangan/login.html">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Keluar</span>
+        </a>
+    </div>
+</aside>
+
+<!-- MAIN WRAPPER -->
+<div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="topbar-title">
+            <span class="ornament">✦</span> Dashboard Admin <span class="ornament">✦</span>
+        </span>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Cari tamu..." id="topbarSearch" oninput="filterTable(this.value)">
+        </div>
+        <div class="topbar-actions">
+            <div class="topbar-icon-btn" title="Notifikasi">
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+            </div>
+            <div class="admin-avatar" title="Admin">A</div>
+        </div>
+    </header>
+
+    <!-- PAGE: DASHBOARD -->
+    <div class="page-view active" id="page-dashboard">
+        <div class="page-content">
+            <div class="section-header">
+                <div>
+                    <h2>Ringkasan</h2>
+                    <p>Pantau semua data tamu undangan secara real-time</p>
+                </div>
+                <button class="export-btn" onclick="exportCSV()">
+                    <i class="fas fa-download"></i> Export CSV
+                </button>
+            </div>
+
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card green">
+                    <div class="stat-icon green"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Tamu</div>
+                        <div class="stat-value" id="statTotal">12</div>
+                        <div class="stat-sub">terdaftar</div>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Hadir</div>
+                        <div class="stat-value" id="statHadir">8</div>
+                        <div class="stat-sub">konfirmasi hadir</div>
+                    </div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Berhalangan</div>
+                        <div class="stat-value" id="statTidak">3</div>
+                        <div class="stat-sub">tidak bisa hadir</div>
+                    </div>
+                </div>
+                <div class="stat-card gold">
+                    <div class="stat-icon gold"><i class="fas fa-user-friends"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Orang</div>
+                        <div class="stat-value" id="statOrang">19</div>
+                        <div class="stat-sub">perkiraan hadir</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TWO COL -->
+            <div class="two-col-grid">
+                <!-- TABLE -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Buku Tamu Terbaru</span>
+                        <a class="card-action" onclick="showPage('tamu', document.querySelector('.nav-item:nth-child(2)'))">Lihat Semua →</a>
+                    </div>
+                    <div class="filter-row">
+                        <button class="filter-btn active" onclick="setFilter('semua', this)">Semua</button>
+                        <button class="filter-btn" onclick="setFilter('hadir', this)">Hadir</button>
+                        <button class="filter-btn" onclick="setFilter('tidak', this)">Berhalangan</button>
+                        <div class="filter-search">
+                            <i class="fas fa-search" style="color:#aaa;font-size:0.75rem;"></i>
+                            <input type="text" placeholder="Cari nama..." oninput="filterTable(this.value)" id="tableSearch">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table id="guestTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px">#</th>
+                                    <th>Nama Tamu</th>
+                                    <th>Kehadiran</th>
+                                    <th>Jumlah</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- DONUT CHART -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">RSVP Overview</span>
+                    </div>
+                    <div class="rsvp-donut-wrap">
+                        <div class="donut-chart">
+                            <svg width="160" height="160" viewBox="0 0 160 160">
+                                <circle cx="80" cy="80" r="60" fill="none" stroke="#f0ede8" stroke-width="22"/>
+                                <circle cx="80" cy="80" r="60" fill="none"
+                                    stroke="#6f816a" stroke-width="22"
+                                    stroke-dasharray="251.2" stroke-dashoffset="62.8"
+                                    stroke-linecap="round"/>
+                                <circle cx="80" cy="80" r="60" fill="none"
+                                    stroke="#572932" stroke-width="22"
+                                    stroke-dasharray="251.2" stroke-dashoffset="188.4"
+                                    stroke-linecap="round"/>
+                                <circle cx="80" cy="80" r="60" fill="none"
+                                    stroke="#d4a017" stroke-width="22"
+                                    stroke-dasharray="251.2" stroke-dashoffset="230.32"
+                                    stroke-linecap="round"/>
+                            </svg>
+                            <div class="donut-center">
+                                <span class="donut-total">12</span>
+                                <span class="donut-label">tamu</span>
+                            </div>
+                        </div>
+                        <div class="legend-list">
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-dot" style="background:var(--olivine)"></span>
+                                    Konfirmasi Hadir
+                                </div>
+                                <span class="legend-count">8 (67%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-dot" style="background:var(--burgundy)"></span>
+                                    Berhalangan
+                                </div>
+                                <span class="legend-count">3 (25%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-dot" style="background:#d4a017"></span>
+                                    Belum Konfirmasi
+                                </div>
+                                <span class="legend-count">1 (8%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM ROW -->
+            <div class="bottom-row">
+                <!-- UCAPAN TERBARU -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Ucapan & Doa Terbaru</span>
+                        <a class="card-action" onclick="showPage('ucapan', null)">Lihat Semua →</a>
+                    </div>
+                    <div class="messages-list" id="messageList"></div>
+                </div>
+
+                <!-- TIMELINE -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Agenda Pernikahan</span>
+                    </div>
+                    <div class="timeline">
+                        <div class="tl-item">
+                            <div class="tl-dot" style="background:#fdf5e0;color:#b8860b;">
+                                <i class="fas fa-moon" style="font-size:0.65rem;"></i>
+                            </div>
+                            <div class="tl-content">
+                                <div class="tl-title">Pengajian & Siraman</div>
+                                <div class="tl-desc">1 Agustus 2032 · 19.00 WIB</div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot" style="background:#eef3ed;color:var(--olivine-dark);">
+                                <i class="fas fa-ring" style="font-size:0.65rem;"></i>
+                            </div>
+                            <div class="tl-content">
+                                <div class="tl-title">Akad Nikah</div>
+                                <div class="tl-desc">2 Agustus 2032 · 14.00 – 15.30 WIB</div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot" style="background:#fceef0;color:var(--burgundy);">
+                                <i class="fas fa-champagne-glasses" style="font-size:0.65rem;"></i>
+                            </div>
+                            <div class="tl-content">
+                                <div class="tl-title">Resepsi Pernikahan</div>
+                                <div class="tl-desc">2 Agustus 2032 · 16.00 – Selesai</div>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot" style="background:#f5ede8;color:var(--warm-brown);">
+                                <i class="fas fa-map-marker-alt" style="font-size:0.65rem;"></i>
+                            </div>
+                            <div class="tl-content">
+                                <div class="tl-title">Lokasi</div>
+                                <div class="tl-desc">123 Anywhere St., Any City, ST 12345</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="bg-white rounded-lg shadow overflow-hidden border border-[#4a3728]/20">
-            <table class="w-full text-left">
-                <thead class="bg-[#f4f1ea] text-[#4a3728] uppercase text-sm font-bold">
-                    <tr>
-                        <th class="p-4 border-b">No</th>
-                        <th class="p-4 border-b">Nama Tamu</th>
-                        <th class="p-4 border-b">Kehadiran</th>
-                        <th class="p-4 border-b">Pesan / Ucapan</th>
-                        <th class="p-4 border-b text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700">
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-4 italic">1</td>
-                        <td class="p-4 font-semibold">Andi Wijaya</td>
-                        <td class="p-4 text-green-700">Hadir (2 Orang)</td>
-                        <td class="p-4 text-sm italic">"Selamat menempuh hidup baru Albert & Selviana!"</td>
-                        <td class="p-4 text-center"><input type="checkbox" checked></td>
-                    </tr>
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-4 italic">2</td>
-                        <td class="p-4 font-semibold">Budi Santoso</td>
-                        <td class="p-4 text-red-700">Berhalangan</td>
-                        <td class="p-4 text-sm italic">"Maaf belum bisa hadir, doa terbaik untuk kalian."</td>
-                        <td class="p-4 text-center"><input type="checkbox"></td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- PAGE: BUKU TAMU FULL -->
+    <div class="page-view" id="page-tamu">
+        <div class="page-content">
+            <div class="section-header">
+                <div>
+                    <h2>Buku Tamu</h2>
+                    <p>Seluruh daftar tamu yang telah mengisi konfirmasi kehadiran</p>
+                </div>
+                <button class="export-btn" onclick="exportCSV()">
+                    <i class="fas fa-download"></i> Export CSV
+                </button>
+            </div>
+            <div class="card">
+                <div class="filter-row">
+                    <button class="filter-btn active" onclick="setFilter('semua', this)">Semua</button>
+                    <button class="filter-btn" onclick="setFilter('hadir', this)">Hadir</button>
+                    <button class="filter-btn" onclick="setFilter('tidak', this)">Berhalangan</button>
+                    <div class="filter-search">
+                        <i class="fas fa-search" style="color:#aaa;font-size:0.75rem;"></i>
+                        <input type="text" placeholder="Cari nama..." oninput="filterTable(this.value)" id="tableSearch2">
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:40px">#</th>
+                                <th>Nama Tamu</th>
+                                <th>Kehadiran</th>
+                                <th>Jumlah</th>
+                                <th>Ucapan</th>
+                                <th>Tgl Daftar</th>
+                                <th style="text-align:center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBodyFull"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
 
+    <!-- PAGE: UCAPAN -->
+    <div class="page-view" id="page-ucapan">
+        <div class="page-content">
+            <div class="section-header">
+                <div>
+                    <h2>Ucapan & Doa</h2>
+                    <p>Kumpulan pesan indah dari para tamu undangan</p>
+                </div>
+            </div>
+            <div id="ucapanGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE: RSVP STATS -->
+    <div class="page-view" id="page-rsvp">
+        <div class="page-content">
+            <div class="section-header">
+                <div>
+                    <h2>Statistik RSVP</h2>
+                    <p>Analisis data kehadiran tamu undangan</p>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card green">
+                    <div class="stat-icon green"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Tamu</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-sub">terdaftar</div>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Hadir</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-sub">67%</div>
+                    </div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Berhalangan</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-sub">25%</div>
+                    </div>
+                </div>
+                <div class="stat-card gold">
+                    <div class="stat-icon gold"><i class="fas fa-user-friends"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Est. Total Orang</div>
+                        <div class="stat-value">19</div>
+                        <div class="stat-sub">perkiraan hadir</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Distribusi Kehadiran</span>
+                </div>
+                <div class="progress-list">
+                    <div class="progress-item">
+                        <div class="progress-label"><span>Konfirmasi Hadir</span><span>8 dari 12 (67%)</span></div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:67%;background:var(--olivine);"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label"><span>Berhalangan</span><span>3 dari 12 (25%)</span></div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:25%;background:var(--burgundy);"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label"><span>Belum Konfirmasi</span><span>1 dari 12 (8%)</span></div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:8%;background:#d4a017;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label"><span>Tamu Dengan Ucapan</span><span>10 dari 12 (83%)</span></div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:83%;background:var(--warm-brown);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: PENGATURAN -->
+    <div class="page-view" id="page-pengaturan">
+        <div class="page-content">
+            <div class="section-header">
+                <div>
+                    <h2>Pengaturan</h2>
+                    <p>Kelola informasi acara dan akun admin</p>
+                </div>
+            </div>
+            <div class="card" style="max-width:600px">
+                <div class="card-header"><span class="card-title">Informasi Acara</span></div>
+                <div class="rsvp-form-preview">
+                    <div class="form-field">
+                        <label>Nama Mempelai</label>
+                        <div class="field-value">Albert & Selviana</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Tanggal Pernikahan</label>
+                        <div class="field-value">Minggu, 2 Agustus 2032</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Jam Acara</label>
+                        <div class="field-value">14.00 WIB – Selesai</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Lokasi</label>
+                        <div class="field-value">123 Anywhere St., Any City, ST 12345</div>
+                    </div>
+                </div>
+                <div class="card-header" style="border-top:1px solid #f0ede8"><span class="card-title">Akun Admin</span></div>
+                <div class="rsvp-form-preview">
+                    <div class="form-field">
+                        <label>Username</label>
+                        <div class="field-value">admin</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Password</label>
+                        <div class="field-value">••••••••</div>
+                    </div>
+                </div>
+                <div style="padding:16px 22px;">
+                    <button class="export-btn" style="background:var(--burgundy);">
+                        <i class="fas fa-save"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- end main-wrapper -->
+
+<script>
+// ============= DATA =============
+const guests = [
+    { id:1, name:"Andi Wijaya",     kehadiran:"hadir",  jumlah:2, ucapan:"Selamat menempuh hidup baru Albert & Selviana! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", tgl:"10 Mar 2026", colors:["#6f816a","#a8bba4"] },
+    { id:2, name:"Budi Santoso",    kehadiran:"tidak",  jumlah:0, ucapan:"Maaf belum bisa hadir, doa terbaik untuk kalian berdua. Semoga bahagia selalu!", tgl:"11 Mar 2026", colors:["#572932","#c75a6a"] },
+    { id:3, name:"Citra Dewi",      kehadiran:"hadir",  jumlah:3, ucapan:"Bahagia banget dapet undangan! Selamat ya, semoga rumah tangganya penuh kasih sayang.", tgl:"11 Mar 2026", colors:["#4a7c59","#6dab8a"] },
+    { id:4, name:"Denny Prasetyo",  kehadiran:"hadir",  jumlah:1, ucapan:"Selamat Albert! Akhirnya menikah juga haha. Semoga langgeng ya!", tgl:"12 Mar 2026", colors:["#7a5e52","#a88070"] },
+    { id:5, name:"Eva Rahayu",      kehadiran:"hadir",  jumlah:2, ucapan:"Selviana cantik banget di foto! Selamat ya, semoga selalu dalam berkah dan kebahagiaan.", tgl:"12 Mar 2026", colors:["#b8860b","#d4a017"] },
+    { id:6, name:"Fajar Nugroho",   kehadiran:"tidak",  jumlah:0, ucapan:"Turut mendoakan dari jauh. Semoga pernikahan kalian menjadi awal kebahagiaan yang abadi.", tgl:"13 Mar 2026", colors:["#572932","#9b2335"] },
+    { id:7, name:"Gita Purnama",    kehadiran:"hadir",  jumlah:2, ucapan:"Selamat menikah! Semoga menjadi pasangan yang saling melengkapi selamanya.", tgl:"13 Mar 2026", colors:["#3d5a44","#6f816a"] },
+    { id:8, name:"Hendra Kusuma",   kehadiran:"hadir",  jumlah:1, ucapan:"Wah, akhirnya hari yang ditunggu! Selamat Albert dan Selviana, semoga bahagia!", tgl:"14 Mar 2026", colors:["#4a3728","#7a5e52"] },
+    { id:9, name:"Indah Sari",      kehadiran:"tidak",  jumlah:0, ucapan:"", tgl:"15 Mar 2026", colors:["#b8860b","#c9a227"] },
+    { id:10, name:"Joko Widodo",    kehadiran:"hadir",  jumlah:4, ucapan:"Pesta yang pasti seru! Kami sekeluarga siap datang. Selamat bahagia!", tgl:"15 Mar 2026", colors:["#6f816a","#3d5a44"] },
+    { id:11, name:"Kartini Aziz",   kehadiran:"hadir",  jumlah:2, ucapan:"Semoga pernikahan ini menjadi pondasi kuat untuk kehidupan yang lebih indah.", tgl:"16 Mar 2026", colors:["#572932","#8b3d4a"] },
+    { id:12, name:"Lestari Putri",  kehadiran:"pending", jumlah:0, ucapan:"Insya Allah hadir! Masih konfirmasi dengan keluarga.", tgl:"16 Mar 2026", colors:["#4a3728","#8a6914"] },
+];
+
+let currentFilter = 'semua';
+
+// ============= RENDER TABLE =============
+function renderTable(data, bodyId) {
+    const tbody = document.getElementById(bodyId);
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    data.forEach((g, i) => {
+        const isHadir = g.kehadiran === 'hadir';
+        const isTidak = g.kehadiran === 'tidak';
+        const initials = g.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+        const badge = isHadir
+            ? `<span class="badge badge-green"><i class="fas fa-check" style="font-size:0.6rem"></i> Hadir (${g.jumlah} Orang)</span>`
+            : isTidak
+            ? `<span class="badge badge-red"><i class="fas fa-times" style="font-size:0.6rem"></i> Berhalangan</span>`
+            : `<span class="badge badge-gold"><i class="fas fa-clock" style="font-size:0.6rem"></i> Pending</span>`;
+
+        const ucapanShort = g.ucapan.length > 45 ? g.ucapan.substring(0,45)+'...' : (g.ucapan || '<span style="color:#ccc;font-style:italic;">–</span>');
+
+        if (bodyId === 'tableBody') {
+            tbody.innerHTML += `
+            <tr>
+                <td style="color:#bbb;font-size:0.8rem;">${i+1}</td>
+                <td>
+                    <div class="guest-cell">
+                        <div class="guest-initials" style="background:linear-gradient(135deg,${g.colors[0]},${g.colors[1]})">${initials}</div>
+                        <span class="guest-name">${g.name}</span>
+                    </div>
+                </td>
+                <td>${badge}</td>
+                <td style="color:#888;">${g.jumlah > 0 ? g.jumlah+' orang' : '–'}</td>
+                <td style="text-align:center">
+                    <div class="checkbox-custom ${isHadir ? 'checked' : ''}">${isHadir ? '<i class="fas fa-check" style="font-size:0.6rem"></i>' : ''}</div>
+                </td>
+            </tr>`;
+        } else {
+            tbody.innerHTML += `
+            <tr>
+                <td style="color:#bbb;font-size:0.8rem;">${i+1}</td>
+                <td>
+                    <div class="guest-cell">
+                        <div class="guest-initials" style="background:linear-gradient(135deg,${g.colors[0]},${g.colors[1]})">${initials}</div>
+                        <span class="guest-name">${g.name}</span>
+                    </div>
+                </td>
+                <td>${badge}</td>
+                <td style="color:#888;">${g.jumlah > 0 ? g.jumlah+' orang' : '–'}</td>
+                <td style="font-size:0.78rem;font-style:italic;color:#888;">${ucapanShort}</td>
+                <td style="color:#bbb;font-size:0.78rem;">${g.tgl}</td>
+                <td style="text-align:center">
+                    <button onclick="deleteGuest(${g.id})" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:0.85rem;" title="Hapus"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>`;
+        }
+    });
+}
+
+function renderMessages() {
+    const ml = document.getElementById('messageList');
+    const withMsg = guests.filter(g => g.ucapan).slice(0,5);
+    ml.innerHTML = withMsg.map(g => `
+        <div class="message-item">
+            <div class="message-top">
+                <span class="message-author">${g.name}</span>
+                <span class="message-time">${g.tgl}</span>
+            </div>
+            <div class="message-text">"${g.ucapan}"</div>
+            <div class="message-attendance">
+                ${g.kehadiran === 'hadir'
+                    ? '<span style="color:var(--olivine-dark)"><i class="fas fa-check-circle"></i> Konfirmasi Hadir</span>'
+                    : g.kehadiran === 'tidak'
+                    ? '<span style="color:var(--burgundy)"><i class="fas fa-times-circle"></i> Berhalangan</span>'
+                    : '<span style="color:#b8860b"><i class="fas fa-clock"></i> Pending</span>'}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderUcapan() {
+    const grid = document.getElementById('ucapanGrid');
+    const withMsg = guests.filter(g => g.ucapan);
+    grid.innerHTML = withMsg.map(g => `
+        <div class="card" style="padding:20px;animation:fadeUp 0.4s ease both">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="guest-initials" style="background:linear-gradient(135deg,${g.colors[0]},${g.colors[1]})">
+                    ${g.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}
+                </div>
+                <div>
+                    <div style="font-weight:600;font-size:0.88rem">${g.name}</div>
+                    <div style="font-size:0.72rem;color:#aaa">${g.tgl}</div>
+                </div>
+            </div>
+            <p style="font-style:italic;color:#666;font-size:0.85rem;line-height:1.6;font-family:'Cormorant Garamond',serif;font-size:1rem">"${g.ucapan}"</p>
+            <div style="margin-top:10px">
+                ${g.kehadiran==='hadir'
+                    ? '<span class="badge badge-green"><i class="fas fa-check" style="font-size:0.6rem"></i> Hadir</span>'
+                    : '<span class="badge badge-red"><i class="fas fa-times" style="font-size:0.6rem"></i> Berhalangan</span>'}
+            </div>
+        </div>
+    `).join('');
+}
+
+function getFilteredGuests() {
+    if (currentFilter === 'hadir') return guests.filter(g => g.kehadiran === 'hadir');
+    if (currentFilter === 'tidak') return guests.filter(g => g.kehadiran === 'tidak');
+    return guests;
+}
+
+function filterTable(query) {
+    const filtered = getFilteredGuests().filter(g =>
+        g.name.toLowerCase().includes(query.toLowerCase())
+    );
+    renderTable(filtered, 'tableBody');
+    renderTable(filtered, 'tableBodyFull');
+}
+
+function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderTable(getFilteredGuests(), 'tableBody');
+    renderTable(getFilteredGuests(), 'tableBodyFull');
+}
+
+function deleteGuest(id) {
+    if (confirm('Hapus tamu ini dari daftar?')) {
+        const idx = guests.findIndex(g => g.id === id);
+        if (idx > -1) {
+            guests.splice(idx, 1);
+            renderTable(getFilteredGuests(), 'tableBodyFull');
+            renderTable(getFilteredGuests(), 'tableBody');
+            updateStats();
+        }
+    }
+}
+
+function updateStats() {
+    document.getElementById('statTotal').textContent = guests.length;
+    document.getElementById('statHadir').textContent = guests.filter(g=>g.kehadiran==='hadir').length;
+    document.getElementById('statTidak').textContent = guests.filter(g=>g.kehadiran==='tidak').length;
+    document.getElementById('statOrang').textContent = guests.filter(g=>g.kehadiran==='hadir').reduce((a,g)=>a+g.jumlah,0);
+}
+
+// ============= EXPORT CSV =============
+function exportCSV() {
+    const header = 'No,Nama,Kehadiran,Jumlah,Ucapan,Tanggal';
+    const rows = guests.map((g,i) =>
+        `${i+1},"${g.name}","${g.kehadiran}",${g.jumlah},"${g.ucapan}","${g.tgl}"`
+    );
+    const csv = [header, ...rows].join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'buku-tamu-albert-selviana.csv';
+    a.click();
+}
+
+// ============= NAV PAGES =============
+function showPage(pageId, navEl) {
+    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const page = document.getElementById('page-' + pageId);
+    if (page) page.classList.add('active');
+    if (navEl) navEl.classList.add('active');
+
+    // render relevant content
+    if (pageId === 'tamu') { renderTable(getFilteredGuests(), 'tableBodyFull'); }
+    if (pageId === 'ucapan') { renderUcapan(); }
+
+    // close sidebar on mobile
+    if (window.innerWidth < 900) closeSidebar();
+}
+
+// ============= SIDEBAR TOGGLE =============
+function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sb.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+// ============= INIT =============
+renderTable(guests, 'tableBody');
+renderTable(guests, 'tableBodyFull');
+renderMessages();
+</script>
 </body>
 </html>
