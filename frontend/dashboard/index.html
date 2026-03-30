@@ -2,15 +2,14 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=/frontend/dashboard.html">
     <title>Dashboard - Albert & Selviana</title>
     <script>
         // Cek autentikasi sebelum redirect
         const namaTamu = localStorage.getItem('namaTamu');
         if (namaTamu !== 'admin123') {
-            window.location.href = '/frontend/login.html';
+            window.location.href = '/frontend/dashboard/login.html';
         } else {
-            window.location.href = '/frontend/dashboard.html';
+            window.location.href = '/frontend/dashboard/dashboard.html';
         }
     </script>
 </head>

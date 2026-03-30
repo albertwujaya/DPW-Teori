@@ -16,7 +16,9 @@
     <div class="bg-[#fdfbf7] p-8 rounded-lg shadow-2xl classic-border w-full max-w-md text-center">
         <div class="flex justify-center mb-4">
             <svg class="w-16 h-16 text-[#4a3728]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                </path>
             </svg>
         </div>
 
@@ -24,16 +26,10 @@
         <p style="font-style:italic;color:#888;font-size:0.95rem;margin-bottom:24px;">Albert & Selviana Wedding</p>
 
         <form id="loginForm" class="space-y-4">
-            <input
-                type="text"
-                id="username"
-                placeholder="Username"
+            <input type="text" id="username" placeholder="Username"
                 class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
                 required>
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
+            <input type="password" id="password" placeholder="Password"
                 class="w-full p-3 bg-transparent border-b-2 border-[#4a3728] focus:outline-none focus:border-yellow-700 placeholder-[#4a3728]/50"
                 required>
 
@@ -41,7 +37,8 @@
                 Username atau Password salah!
             </div>
 
-            <button type="submit" class="mt-8 px-10 py-2 border border-[#4a3728] text-[#4a3728] hover:bg-[#4a3728] hover:text-white transition duration-300 font-bold uppercase tracking-widest">
+            <button type="submit"
+                class="mt-8 px-10 py-2 border border-[#4a3728] text-[#4a3728] hover:bg-[#4a3728] hover:text-white transition duration-300 font-bold uppercase tracking-widest">
                 Masuk
             </button>
         </form>
@@ -58,15 +55,15 @@
     </div>
 
     <script>
-        // Cek jika sudah login
-        window.addEventListener('load', function() {
+        // Jika sudah login, langsung redirect ke dashboard
+        window.addEventListener('load', function () {
             const namaTamu = localStorage.getItem('namaTamu');
             if (namaTamu === 'admin123') {
-                window.location.href = '/frontend/dashboard/index.html';
+                window.location.href = '/frontend/dashboard/dashboard.html';
             }
         });
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
@@ -74,7 +71,7 @@
 
             if (username === 'admin' && password === 'admin123') {
                 localStorage.setItem('namaTamu', 'admin123');
-                window.location.href = '/frontend/dashboard/index.html';
+                window.location.href = '/frontend/dashboard/dashboard.html';
             } else {
                 errorMsg.style.display = 'block';
                 document.getElementById('password').value = '';
